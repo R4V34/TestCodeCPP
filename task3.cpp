@@ -6,22 +6,27 @@
 */
 
 #include <iostream>
-#include <bits/stdc++.h>
-#define NO_OF_CHARS 256
+#include <unordered_map>
 
 using namespace std;
 
-int lengthOfLongestSubstring(string s) {
-    int n = s.size();
-    int res = 0;
-    vector<char> lastIndex();
-    int i = 0;
-    for (int j = 0; j < n; j++) {
-        i = max(i, (int)lastIndex[s[j]] + 1);
-        res = max(res, j - i + 1);
-        lastIndex[s[j]] = (int)j;
-    }
-    return res;
+int lengthOfLongestSubstring(string str) {
+    int j = 0;
+    int max_len = -1;
+    int str_len = str.size();
+    unordered_map<char, int> m;
+    for (int i = 0; i < str_len; i++)
+        if (m.find(str[i]) == m.end()) m[str[i]] = i;
+        else
+        {
+            if (m[str[i]] >= j) {
+                max_len = max(i - j, max_len);
+                j = m[str[i]] + 1;
+            }
+            m[str[i]] = i;
+        }
+
+    return max_len == -1 ? str_len : max(max_len, str_len - j);
 }
 
 int main()
